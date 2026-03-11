@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Free AI Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<h2>AI Chat</h2>
+
+<input id="text" placeholder="Напиши сообщение">
+<button onclick="send()">Отправить</button>
+
+<br><br>
+<input type="file" id="photo">
+
+<p id="answer"></p>
+
+<script>
+async function send(){
+  let msg=document.getElementById("text").value;
+
+  let r=await fetch("https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",{
+    method:"POST",
+    headers:{
+      "Authorization":"Bearer YOUR_API_KEY",
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({inputs:msg})
+  });
+
+  let data=await r.json();
+
+  document.getElementById("answer").innerText=JSON.stringify(data);
+}
+</script>
+
+</body>
+</html>
